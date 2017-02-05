@@ -1,0 +1,84 @@
+﻿@model Clinic_Registry.ViewModels.PatientFormViewModel
+@using System.Globalization;
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Patient.Id == 0)
+{
+    <h2>New patient</h2>
+}
+else
+{
+    <h2>Edit patient</h2>
+}
+
+
+@using (Html.BeginForm("Save", "Patients"))
+{
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.Name)
+        @Html.TextBoxFor(m => m.Patient.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Patient.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.Adress)
+        @Html.TextBoxFor(m => m.Patient.Adress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Patient.Adress)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.Pesel)
+        @Html.TextBoxFor(m => m.Patient.Pesel, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Patient.Pesel)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.PhoneNumber)
+        @Html.TextBoxFor(m => m.Patient.PhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Patient.PhoneNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.BirthDate)
+        @if (Model.Patient.Id == 0)
+        {
+            @Html.TextBoxFor(m => m.Patient.BirthDate, new { @class = "form-control date-picker", Value = "" })
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.Patient.BirthDate, new { @class = "form-control date-picker", Value = Model.Patient.BirthDate.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US")) })
+        }
+        @Html.ValidationMessageFor(m => m.Patient.BirthDate)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.GenderId)
+        @Html.DropDownListFor(m => m.Patient.GenderId, new SelectList(Model.Genders, "Id", "Name"), "Select Gender", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Patient.GenderId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patient.DateAddedToRegistry)
+        @Html.TextBoxFor(m => m.Patient.DateAddedToRegistry, new { @class = "form-control date-picker", Value = Model.Patient.DateAddedToRegistry.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US")) })
+        @Html.ValidationMessageFor(m => m.Patient.DateAddedToRegistry)
+    </div>
+
+    <button type="submit" class="btn btn-primary ">Save</button>
+
+    <div class="form-group">
+        @Html.HiddenFor(m => m.Patient.Id)
+    </div>
+    @Html.AntiForgeryToken();
+
+    @section scripts
+    {
+
+        @Scripts.Render("~/bundles/jqueryval")
+
+        <script type="text/javascript">
+            $(function () {
+                // This will make every element with the class "date-picker" into a DatePicker element
+                $('.date-picker').datepicker();
+            })
+        </script>
+
+    }
+}

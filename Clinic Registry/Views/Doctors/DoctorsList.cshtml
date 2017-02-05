@@ -1,0 +1,29 @@
+﻿@model Clinic_Registry.ViewModels.DoctorsListViewModel
+@{
+    ViewBag.Title = "DoctorsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of doctors</h2>
+
+@Html.ActionLink("Add new doctor profile", "CreateNew")
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doctor in Model.DoctorsList)
+        {
+            <tr>
+                <td>@doctor.Name</td>
+                <td>@doctor.Specialization.Name</td>
+                <td>@Html.ActionLink("Details", "Details", new { id = doctor.Id })</td>
+            </tr>
+        }
+    </tbody>
+</table>

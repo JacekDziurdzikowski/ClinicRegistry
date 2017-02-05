@@ -1,0 +1,57 @@
+﻿@model Clinic_Registry.ViewModels.DoctorFormViewModel
+@{
+    ViewBag.Title = "DoctorForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DoctorForm</h2>
+
+@if (Model.Doctor.Id == 0)
+{
+    <h2>New doctor</h2>
+}
+else
+{
+    <h2>Edit doctor</h2>
+}
+
+@using (Html.BeginForm("Save", "Doctors"))
+{
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Doctor.Name)
+        @Html.TextBoxFor(m => m.Doctor.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Doctor.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Doctor.PhoneNumber)
+        @Html.TextBoxFor(m => m.Doctor.PhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Doctor.PhoneNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Doctor.SpecializationId)
+        @Html.DropDownListFor(m => m.Doctor.SpecializationId, new SelectList(Model.Specializations, "Id", "Name"), "Select Specialization", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Doctor.SpecializationId)
+    </div>
+
+    <button type="submit" class="btn btn-primary ">Save</button>
+
+    <div class="form-group">
+        @Html.HiddenFor(m => m.Doctor.Id)
+    </div>
+    @Html.AntiForgeryToken();
+
+    @section scripts
+    {
+
+        @Scripts.Render("~/bundles/jqueryval")
+
+        <script type="text/javascript">
+            $(function () {
+                // This will make every element with the class "date-picker" into a DatePicker element
+                $('.date-picker').datepicker();
+            })
+        </script>
+
+    }
+}

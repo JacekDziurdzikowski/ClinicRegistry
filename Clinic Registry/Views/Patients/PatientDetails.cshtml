@@ -1,0 +1,44 @@
+﻿@model Clinic_Registry.Models.Patient
+@using System.Globalization;
+@{
+    ViewBag.Title = "PatientDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Patient details</h2>
+
+<table>
+    <tbody>
+        <tr>
+            <td>Name</td>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <td>Adress</td>
+            <td>@Model.Adress</td>
+        </tr>
+        <tr>
+            <td>Pesel</td>
+            <td>@Model.Pesel</td>
+        </tr>
+        <tr>
+            <td>Phone number</td>
+            <td>@Model.PhoneNumber</td>
+        </tr>
+        <tr>
+            <td>Date of birth</td>
+            <td>@Model.BirthDate.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US"))</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>@Model.Gender.Name</td>
+        </tr>
+        <tr>
+            <td>Added to registry</td>
+            <td>@Model.DateAddedToRegistry.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US"))</td>
+        </tr>
+    </tbody>
+</table>
+
+
+@Html.ActionLink("Edit", "Edit", new { id = Model.Id })
