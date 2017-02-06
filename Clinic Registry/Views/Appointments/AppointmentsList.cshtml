@@ -1,0 +1,51 @@
+﻿@model Clinic_Registry.ViewModels.AppointmentsListViewModel
+@using System.Globalization;
+@{
+    ViewBag.Title = "AppointmentsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Appointments</h2>
+
+@Html.ActionLink("Make a new visit", "CreateNew")
+<p></p>
+@using (Html.BeginForm("Index", "Appointments"))
+{ 
+    <div class="form-group">
+    @Html.LabelFor(m => m.Date)
+    @Html.EditorFor(m => m.Date, new { @class = "form-control", value = Model.Date.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US")) })
+    </div>
+    <button type="submit" class="btn btn-primary ">Display</button>
+
+}
+
+<h3>Date: @Model.Date.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US"))</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < 8; i++)
+        {
+            <tr>
+                <td>Hour: @(8 + i):00</td>
+            </tr>
+            foreach (var appointment in Model.TempAppointmentsList)
+            {
+                if (appointment.Date.Hour == (8 + i))
+                {
+                    <tr>
+                        <td>@appointment.Doctor.Name</td>
+                        <td>@appointment.Patient.Name</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = appointment.Id })</td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

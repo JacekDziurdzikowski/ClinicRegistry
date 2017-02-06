@@ -42,11 +42,11 @@ else
         @Html.LabelFor(m => m.Patient.BirthDate)
         @if (Model.Patient.Id == 0)
         {
-            @Html.TextBoxFor(m => m.Patient.BirthDate, new { @class = "form-control date-picker", Value = "" })
+            @Html.TextBoxFor(m => m.Patient.BirthDate, new { @class = "form-control date-picker", Value = "", type = "date"})
         }
         else
         {
-            @Html.TextBoxFor(m => m.Patient.BirthDate, new { @class = "form-control date-picker", Value = Model.Patient.BirthDate.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US")) })
+            @Html.TextBoxFor(m => m.Patient.BirthDate, new { @class = "form-control @*date-picker*@", Value = Model.Patient.BirthDate.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US")) })
         }
         @Html.ValidationMessageFor(m => m.Patient.BirthDate)
     </div>
@@ -57,7 +57,7 @@ else
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Patient.DateAddedToRegistry)
-        @Html.TextBoxFor(m => m.Patient.DateAddedToRegistry, new { @class = "form-control date-picker", Value = Model.Patient.DateAddedToRegistry.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("en-US")) })
+        @Html.TextBoxFor(m => m.Patient.DateAddedToRegistry, new { @class = "form-control date-picker", Value = Model.Patient.DateAddedToRegistry.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US")), Readonly = "readonly"})
         @Html.ValidationMessageFor(m => m.Patient.DateAddedToRegistry)
     </div>
 
@@ -68,7 +68,7 @@ else
     </div>
     @Html.AntiForgeryToken();
 
-    @section scripts
+    @*@section scripts
     {
 
         @Scripts.Render("~/bundles/jqueryval")
@@ -80,5 +80,5 @@ else
             })
         </script>
 
-    }
+    }*@
 }

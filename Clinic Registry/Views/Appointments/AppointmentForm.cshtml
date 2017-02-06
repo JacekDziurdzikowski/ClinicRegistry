@@ -1,0 +1,38 @@
+﻿@model Clinic_Registry.ViewModels.AppointmentFormViewModel
+@{
+    ViewBag.Title = "AppointmentForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AppointmentForm</h2>
+
+@using (Html.BeginForm("Save", "Appointments"))
+{
+    @*@Html.ValidationSummary()*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoctorName)
+        @Html.TextBoxFor(m => m.DoctorName, new { @class = "form-control" })
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PatientName)
+        @Html.TextBoxFor(m => m.PatientName, new { @class = "form-control" })
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date)
+        @Html.TextBoxFor(m => m.Date, new { @class = "form-control date-picker", Value = "", type = "datetime-local" })
+        @Html.ValidationMessageFor(m => m.Date)
+    </div>
+
+    <button type="submit" class="btn btn-primary ">Save</button>
+    @Html.AntiForgeryToken();
+
+
+    @section scripts
+    {
+
+        @Scripts.Render("~/bundles/jqueryval")
+
+    }
+}

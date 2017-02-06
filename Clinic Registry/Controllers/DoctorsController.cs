@@ -33,7 +33,7 @@ namespace Clinic_Registry.Controllers
 
 
 
-        //Action supports displaying the users list
+        //Action supports displaying the appointments list
         public ActionResult Index()
         {
             //doctors.DoctorsList.Select(d => d.Specialization = _context.Specializations.SingleOrDefault(s => s.Id == d.SpecializationId));

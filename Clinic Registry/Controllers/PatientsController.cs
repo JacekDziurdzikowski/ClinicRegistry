@@ -36,7 +36,7 @@ namespace Clinic_Registry.Controllers
 
 
 
-        //Action supports displaying the users list
+        //Action supports displaying the patients list
         public ActionResult Index()
         {
 
