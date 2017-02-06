@@ -6,9 +6,10 @@
 
 <h2>List of patients</h2>
 
-@Html.ActionLink("Add new patient profile", "CreateNew")
+@Html.ActionLink("Add new patient profile", "CreateNew", null, new { @class = "btn btn-primary"})
+<p style="padding-top: 0.8em"></p>
 
-<table>
+<table id="patients" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>Name</th>
@@ -27,3 +28,12 @@
         }
     </tbody>
 </table>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {$("#patients").DataTable();})
+    </script>
+
+    }

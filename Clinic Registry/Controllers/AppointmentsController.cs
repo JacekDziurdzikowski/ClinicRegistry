@@ -12,13 +12,13 @@ namespace Clinic_Registry.Controllers
     public class AppointmentsController : Controller
     {
         private ApplicationDbContext _context;
-        private AppointmentsListViewModel appointmentsViewModel;
+        private AppointmentsListViewModel appointments;
 
 
         public AppointmentsController()
         {
             _context = new ApplicationDbContext();
-            appointmentsViewModel = new AppointmentsListViewModel
+            appointments = new AppointmentsListViewModel
             {
                 AppointmentsList = _context.Appointments.Include(a => a.Patient).Include(a => a.Doctor).ToList(),
                 TempAppointmentsList = new List<Appointment>()
@@ -34,33 +34,33 @@ namespace Clinic_Registry.Controllers
 
 
         //Action supports displaying the appointments list
-        public ActionResult Index(AppointmentsDateTransfer appointmentsDateTransfer)
+        public ActionResult Index(AppointmentsListViewModel appointmentsDateTransfer)
         {  
             //Checking for a date
-            if(appointmentsDateTransfer.Date == DateTime.MinValue)
+            if(appointmentsDateTransfer.DateToDisplay == DateTime.MinValue)
             {
-                appointmentsViewModel.Date = DateTime.Today;
+                appointments.DateToDisplay = DateTime.Today;
             }
             else
             {
-                appointmentsViewModel.Date = appointmentsDateTransfer.Date;
+                appointments.DateToDisplay = appointmentsDateTransfer.DateToDisplay;
             }
 
             //Choosing appointments with the valid date
-            appointmentsViewModel.TempAppointmentsList.Clear();
-            foreach (var appointment in appointmentsViewModel.AppointmentsList)
+            appointments.TempAppointmentsList.Clear();
+            foreach (var appointment in appointments.AppointmentsList)
             {
-                if (appointment.Date == appointmentsViewModel.Date)
-                    appointmentsViewModel.TempAppointmentsList.Add(appointment);
+                if (appointment.Date.Date == appointments.DateToDisplay.Date)
+                    appointments.TempAppointmentsList.Add(appointment);
             }
 
-            foreach (var appointment in appointmentsViewModel.TempAppointmentsList)
+            foreach (var appointment in appointments.TempAppointmentsList)
             {
                 appointment.Doctor = _context.Doctors.SingleOrDefault(d => d.Id == appointment.DoctorId);
                 appointment.Patient = _context.Patients.SingleOrDefault(p => p.Id == appointment.PatientId);
             }
 
-            return View("AppointmentsList", appointmentsViewModel);
+            return View("AppointmentsList", appointments);
         }
 
 
@@ -98,13 +98,18 @@ namespace Clinic_Registry.Controllers
         }
 
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, DateTime dateToDisplay)
         {
             var appointment = _context.Appointments.SingleOrDefault(a => a.Id == id);
             _context.Appointments.Remove(appointment);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            var DateTransfer = new AppointmentsListViewModel
+            {
+                DateToDisplay = dateToDisplay
+            };
+
+            return RedirectToAction("Index", DateTransfer);
         }
     }
 }

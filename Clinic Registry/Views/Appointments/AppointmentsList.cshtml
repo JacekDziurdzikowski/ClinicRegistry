@@ -7,21 +7,25 @@
 
 <h2>Appointments</h2>
 
-@Html.ActionLink("Make a new visit", "CreateNew")
-<p></p>
+@Html.ActionLink("Make a new visit", "CreateNew", null, new { @class = "btn btn-primary" })
+
+<p style="padding-top: 0.8em"></p>
+<p style="padding-top: 0.8em"></p>
+
 @using (Html.BeginForm("Index", "Appointments"))
 { 
     <div class="form-group">
-    @Html.LabelFor(m => m.Date)
-    @Html.EditorFor(m => m.Date, new { @class = "form-control", value = Model.Date.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US")) })
+    @Html.LabelFor(m => m.DateToDisplay)
+    @Html.EditorFor(m => m.DateToDisplay, new { @class = "form-control", value = Model.DateToDisplay.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US")) })
+        <button type="submit" class="btn btn-primary" style="display: inline">Display</button>
     </div>
-    <button type="submit" class="btn btn-primary ">Display</button>
+    
 
 }
 
-<h3>Date: @Model.Date.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US"))</h3>
+<h3>Date: @Model.DateToDisplay.ToString("yyyy/MM/dd", CultureInfo.GetCultureInfo("en-US"))</h3>
 
-<table>
+<table id="appointments" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>Doctor</th>
@@ -33,7 +37,7 @@
         @for (var i = 0; i < 8; i++)
         {
             <tr>
-                <td>Hour: @(8 + i):00</td>
+                <td style="font-weight: bold">Hour: @(8 + i):00</td>
             </tr>
             foreach (var appointment in Model.TempAppointmentsList)
             {
@@ -42,10 +46,19 @@
                     <tr>
                         <td>@appointment.Doctor.Name</td>
                         <td>@appointment.Patient.Name</td>
-                        <td>@Html.ActionLink("Delete", "Delete", new { id = appointment.Id })</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = appointment.Id, dateToDisplay = Model.DateToDisplay })</td>
                     </tr>
                 }
             }
         }
     </tbody>
 </table>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {$("#appointments").DataTable();})
+    </script>
+
+}

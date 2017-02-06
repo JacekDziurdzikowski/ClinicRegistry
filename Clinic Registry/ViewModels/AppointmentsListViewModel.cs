@@ -15,6 +15,6 @@ namespace Clinic_Registry.ViewModels
 
         [DataType(DataType.Date)]
         [Display(Name = "Choose Date")]
-        public DateTime Date { get; set; }
+        public DateTime DateToDisplay { get; set; }
     }
 }
